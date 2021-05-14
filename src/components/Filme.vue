@@ -19,7 +19,7 @@
          </div>    
      </div>   
      <div class="buttons">
-       <button class="button is-link is-normal is-fullwidth">Adicionar</button>
+       <button class="button is-link is-normal is-fullwidth" @click="emitirEventoAdicionar">Adicionar</button>
      </div>   
  </div>
 </template>
@@ -37,7 +37,7 @@ export default {
             this.filme.caminhocapa = res.data.poster_path;
             this.filme.capa = "https://image.tmdb.org/t/p/original"+this.filme.caminhocapa;
             this.filme.valor = 79.99;
-            console.log(this.filme);
+            //console.log(this.filme);
        })
     },
     data(){
@@ -57,7 +57,10 @@ export default {
         id_filme: Number
     },
     methods: {
-        
+        emitirEventoAdicionar: function(){
+           console.log("Emitindo do filho");
+           this.$emit("meAdiciona", {Filme: this.filme, component:this});
+        }
     }
 
 }

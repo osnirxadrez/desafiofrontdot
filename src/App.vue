@@ -25,6 +25,8 @@
                   class="input"
                   type="text"
                   placeholder="Pesquisa"
+                  v-model="busca"
+                  id="buscainput"
                 >
                 <span class="icon is-small is-right">
                   <i class="fas fa-search"></i>
@@ -48,11 +50,12 @@
     </nav>
     <div class="columns is-mobile">
       <div class="column is-2 is-offset-1">
-        <div v-for="(mov, index) in filmescolu1" :key="mov.id">
+        <div v-for="(mov, index) in resultadoBusca" :key="mov.id">
           <Filme
             :titulo_filme="mov.original_title"
             :num="index + 1"
             :id_filme="mov.id"
+            @meAdiciona="adicionarFilme"
           />
         </div>
       </div>
@@ -62,6 +65,7 @@
             :titulo_filme="mov.original_title"
             :num="index + 1"
             :id_filme="mov.id"
+            @meAdiciona="adicionarFilme"
           />
         </div>
       </div>
@@ -71,6 +75,7 @@
             :titulo_filme="mov.original_title"
             :num="index + 1"
             :id_filme="mov.id"
+            @meAdiciona="adicionarFilme"
           />
         </div>
       </div>
@@ -80,6 +85,7 @@
             :titulo_filme="mov.original_title"
             :num="index + 1"
             :id_filme="mov.id"
+            @meAdiciona="adicionarFilme"
           />
         </div>
       </div>
@@ -99,6 +105,8 @@ export default {
       filmescolu2: [],
       filmescolu3: [],
       filmescolu4: [],
+      filmesescolhidos:[],
+      busca: ''
     };
   },
   created: function () {
@@ -113,12 +121,30 @@ export default {
         this.filmescolu2 = this.filmes.splice(6, 6);
         this.filmescolu3 = this.filmes.splice(12, 6);
         this.filmescolu4 = this.filmes.splice(18, 6);
-        console.log(res);
+        //console.log(res);
       });
   },
   components: {
     Filme,
   },
+  computed:{
+    resultadoBusca: function(){
+      if(this.busca == '' || this.busca == ' '){
+        return this.filmescolu1;
+      }else{
+        return this.filmescolu1.filter(filme => filme.original_title == this.busca)
+      }
+       
+    }
+  },
+  methods: {
+    adicionarFilme: function($event){
+      console.log("Recebendo evento!!!");
+      console.log($event.Filme);
+      var filmeEscolhido = $event.Filme;
+      this.filmesescolhidos = filmeEscolhido;
+    }
+  }
 };
 </script>
 
@@ -133,5 +159,8 @@ export default {
 }
 #nav {
   margin-bottom: 1.5rem;
+}
+#buscainput{
+  margin-left: 300px;
 }
 </style>
